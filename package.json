@@ -9,5 +9,12 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "got": "^14.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.3"
+  }
 }
