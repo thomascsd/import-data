@@ -1,6 +1,8 @@
-import got from "got";
-import dotenv from "dotenv";
-import { DataService } from "@thomascsd/stools";
+import got from 'got';
+import dotenv from 'dotenv';
+import { DataService } from '@thomascsd/stools';
+import { FooApiUser } from './models/FooApiUser.mjs';
+import { Contact } from './models/Contact.mjs';
 
 // 載入 .env 設定
 dotenv.config();
@@ -8,16 +10,7 @@ dotenv.config();
 const { AIRTABLE_API, AIRTABLE_BASE_ID } = process.env;
 
 if (!AIRTABLE_API || !AIRTABLE_BASE_ID) {
-  throw new Error("請在 .env 檔案中設定 AIRTABLE_API 與 AIRTABLE_BASE_ID");
-}
-
-/**
- * Airtable Contact Model
- */
-class Contact {
-  [key: string]: any;
-  name!: string;
-  email!: string;
+  throw new Error('請在 .env 檔案中設定 AIRTABLE_API 與 AIRTABLE_BASE_ID');
 }
 
 /**
@@ -40,27 +33,19 @@ function mapFooApiUserToContact(user: FooApiUser): Contact {
  *   importUsersToAirtable();
  */
 async function importUsersToAirtable() {
-  const response = await got("https://fooapi.com/docs/users", {
-    responseType: "json",
+  const response = await got('https://fooapi.com/docs/users', {
+    responseType: 'json',
   });
   const users = response.body as FooApiUser[];
 
   const ds = new DataService();
   for (const user of users) {
     const contact = mapFooApiUserToContact(user);
-    await ds.saveData<Contact>(
-      AIRTABLE_API!,
-      AIRTABLE_BASE_ID!,
-      "Contact",
-      contact
-    );
+    await ds.saveData<Contact>(AIRTABLE_API!, AIRTABLE_BASE_ID!, 'Contact', contact);
   }
 }
 
 importUsersToAirtable().catch((err) => {
-  console.error("導入資料失敗:", err);
+  console.error('導入資料失敗:', err);
   process.exit(1);
 });
-
-// 型別引用
-import type { FooApiUser } from "./types";
