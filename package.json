@@ -6,6 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 100,
+    "tabWidth": 2,
+    "semi": true
+  },
   "keywords": [],
   "author": "",
   "license": "MIT",
@@ -15,6 +21,11 @@
     "got": "^14.4.7"
   },
   "devDependencies": {
-    "@types/node": "^24.0.3"
+    "@types/node": "^24.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.34.1",
+    "@typescript-eslint/parser": "^8.34.1",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "prettier": "^3.5.3"
   }
 }
