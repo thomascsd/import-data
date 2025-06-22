@@ -38,3 +38,31 @@
     }
   }
   '''
+  
+# Get a random element GET /api/users/rand
+Usage Example
+
+fetch('https://fooapi.com/api/users/rand')
+  .then(res => res.json())
+  .then(data => console.log(data))
+
+Payload Example
+
+EMPTY
+
+Response Example
+
+{
+    "id": "1",
+    "name": "John",
+    "lastname": "Doe",
+    "username": "JohnxDoe11",
+    "birthdate": "1990-01-01",
+    "age": 30,
+    "gender": "Male",
+    "phone": "+63 791 675 8914",
+    "email": "foo@example.com",
+    "country": "USA",
+    "height": 170,
+    "weight": 70
+}

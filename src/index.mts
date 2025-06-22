@@ -12,30 +12,55 @@ if (!AIRTABLE_API || !AIRTABLE_BASE_ID) {
 }
 
 /**
- * 從 fooapi 取得使用者資料並寫入 Airtable
+ * Airtable Contact Model
+ */
+class Contact {
+  [key: string]: any;
+  name!: string;
+  email!: string;
+}
+
+/**
+ * 將 FooApiUser 轉換為 Contact
+ * @param {FooApiUser} user - 來自 fooapi 的原始資料
+ * @returns {Contact}
+ */
+function mapFooApiUserToContact(user: FooApiUser): Contact {
+  return {
+    name: `${user.name} ${user.lastname}`,
+    email: user.email,
+  };
+}
+
+/**
+ * 從 fooapi 取得使用者資料並寫入 Airtable Contact
  * @returns {Promise<void>}
  * @throws {Error} 若 API 請求或資料寫入失敗
  * @example
  *   importUsersToAirtable();
  */
 async function importUsersToAirtable() {
-  // 取得 fooapi 使用者資料
   const response = await got("https://fooapi.com/docs/users", {
     responseType: "json",
   });
-  // 明確轉型 users 為陣列
-  const users = response.body as Record<string, any>[];
+  const users = response.body as FooApiUser[];
 
-  // 初始化 DataService
   const ds = new DataService();
-  // 批次寫入 Airtable
   for (const user of users) {
-    await ds.saveData(AIRTABLE_API!, AIRTABLE_BASE_ID!, "users", user);
+    const contact = mapFooApiUserToContact(user);
+    await ds.saveData<Contact>(
+      AIRTABLE_API!,
+      AIRTABLE_BASE_ID!,
+      "Contact",
+      contact
+    );
   }
 }
 
 importUsersToAirtable().catch((err) => {
-  // 記錄錯誤，利於診斷
   console.error("導入資料失敗:", err);
   process.exit(1);
 });
+
+// 型別引用
+import type { FooApiUser } from "./types";
