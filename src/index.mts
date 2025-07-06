@@ -1,7 +1,7 @@
 import got from 'got';
 import dotenv from 'dotenv';
 import { DataService } from '@thomascsd/stools';
-import { FooApiUser } from './models/FooApiUser.mjs';
+import { FooApiUser, FooApiUserResponse } from './models/FooApiUser.mjs';
 import { Contact } from './models/Contact.mjs';
 
 // 載入 .env 設定
@@ -33,13 +33,13 @@ function mapFooApiUserToContact(user: FooApiUser): Contact {
  *   importUsersToAirtable();
  */
 async function importUsersToAirtable() {
-  const response = await got('https://fooapi.com/docs/users', {
+  const response = await got('https://fooapi.com/api/users', {
     responseType: 'json',
   });
-  const users = response.body as FooApiUser[];
+  const res = response.body as FooApiUserResponse;
 
   const ds = new DataService();
-  for (const user of users) {
+  for (const user of res.data) {
     const contact = mapFooApiUserToContact(user);
     await ds.saveData<Contact>(AIRTABLE_API!, AIRTABLE_BASE_ID!, 'Contact', contact);
   }

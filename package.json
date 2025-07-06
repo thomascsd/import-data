@@ -8,6 +8,7 @@
     "start": "npm run build && node ./dist/index.mjs",
     "dev": "tsc --watch & nodemon --watch src --exec node ./dist/index.mjs",
     "watch": "tsc --watch",
+    "debug": "tsc:build tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "prettier": {
@@ -32,6 +33,7 @@
     "eslint-config-prettier": "^10.1.5",
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }
 }

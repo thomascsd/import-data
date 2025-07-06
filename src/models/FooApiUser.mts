@@ -28,3 +28,7 @@ export interface FooApiUser {
   height: number;
   weight: number;
 }
+
+export interface FooApiUserResponse {
+  data: FooApiUser[];
+}
